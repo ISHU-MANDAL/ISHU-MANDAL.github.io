@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ISHU | Mechatronics & Autonomous Robotics Engineer</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              dark: '#080c14',
+              surface: '#0d1322',
+              card: '#121a2d',
+              cardBorder: '#1e293b',
+              accent: '#38bdf8',
+              cyan: '#00f2fe',
+              emerald: '#10b981',
+              violet: '#818cf8',
+              amber: '#f59e0b'
+            }
+          },
+          fontFamily: {
+            sans: ['Space Grotesk', 'Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* Technical Grid Overlay */
+    .bg-grid {
+      background-size: 36px 36px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    }
+    .glow-cyan {
+      box-shadow: 0 0 45px -10px rgba(0, 242, 254, 0.3);
+    }
+    .glow-card:hover {
+      box-shadow: 0 10px 30px -10px rgba(56, 189, 248, 0.2);
+    }
+    /* Sleek scrollbar */
+    ::-webkit-scrollbar {
+      width: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #080c14;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #38bdf8;
+    }
+    canvas#radarCanvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+  </style>
+</head>
+<body class="bg-brand-dark text-slate-200 font-sans antialiased selection:bg-brand-accent selection:text-brand-dark min-h-screen relative overflow-x-hidden">
+
+  <!-- Ambient Radiant Orbs -->
+  <div class="fixed top-[-100px] left-1/4 w-[500px] h-[500px] bg-brand-cyan/10 rounded-full blur-[140px] pointer-events-none -z-10 animate-pulse"></div>
+  <div class="fixed bottom-0 right-10 w-[600px] h-[600px] bg-brand-violet/10 rounded-full blur-[150px] pointer-events-none -z-10"></div>
+
+  <!-- NAVIGATION -->
+  <header class="sticky top-0 z-40 w-full backdrop-blur-xl bg-brand-dark/85 border-b border-slate-800/80 transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand Monogram -->
+      <a href="#hero" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-cyan via-brand-accent to-brand-violet p-[1.5px] transition-transform group-hover:scale-105">
+          <div class="w-full h-full bg-brand-dark rounded-[10px] flex items-center justify-center font-mono font-bold text-brand-cyan text-sm tracking-wider">
+            IM
+          </div>
+        </div>
+        <div>
+          <span class="font-bold text-white text-base tracking-wide flex items-center gap-1.5 group-hover:text-brand-accent transition-colors">
+            ISHU <span class="text-xs px-1.5 py-0.5 rounded bg-brand-cyan/15 text-brand-cyan font-mono border border-brand-cyan/25">ROBOTICS</span>
+          </span>
+          <span class="text-[10px] font-mono block text-slate-400">SRM IST &bull; IIT GUWAHATI (AIML)</span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden md:flex items-center space-x-1 lg:space-x-6 text-sm font-medium text-slate-300">
+        <a href="#about" class="px-3 py-1.5 rounded-lg hover:text-brand-cyan hover:bg-slate-800/50 transition">About</a>
+        <a href="#projects" class="px-3 py-1.5 rounded-lg hover:text-brand-cyan hover:bg-slate-800/50 transition">Flagship Projects</a>
+        <a href="#skills" class="px-3 py-1.5 rounded-lg hover:text-brand-cyan hover:bg-slate-800/50 transition">Skills Matrix</a>
+        <a href="#education" class="px-3 py-1.5 rounded-lg hover:text-brand-cyan hover:bg-slate-800/50 transition">Education & Certs</a>
+        <a href="#contact" class="px-3 py-1.5 rounded-lg hover:text-brand-cyan hover:bg-slate-800/50 transition">Contact</a>
+      </nav>
+
+      <!-- Action Area -->
+      <div class="flex items-center gap-3">
+        <button onclick="toggleDeployGuide(true)" class="hidden sm:inline-flex items-center gap-1.5 text-xs font-mono bg-slate-800/80 hover:bg-slate-700/80 text-brand-cyan px-3 py-2 rounded-xl border border-slate-700 transition">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+          Deploy Guide
+        </button>
+
+        <a href="mailto:ishumandal159@gmail.com" class="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-xl bg-gradient-to-r from-brand-cyan to-brand-accent hover:opacity-95 text-brand-dark font-mono shadow-md shadow-brand-cyan/20 transition-all hover:scale-105">
+          <span>Let's Talk</span>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+        </a>
+
+        <!-- Mobile Menu Button -->
+        <button id="mobileMenuBtn" class="md:hidden p-2 text-slate-400 hover:text-white focus:outline-none">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div id="mobileMenu" class="hidden md:hidden bg-brand-surface border-b border-slate-800 px-6 py-4 space-y-3 font-mono text-sm">
+      <a href="#about" onclick="toggleMenu()" class="block text-slate-300 hover:text-brand-cyan py-1">/About</a>
+      <a href="#projects" onclick="toggleMenu()" class="block text-slate-300 hover:text-brand-cyan py-1">/Projects</a>
+      <a href="#skills" onclick="toggleMenu()" class="block text-slate-300 hover:text-brand-cyan py-1">/Skills</a>
+      <a href="#education" onclick="toggleMenu()" class="block text-slate-300 hover:text-brand-cyan py-1">/Education & Certs</a>
+      <a href="#contact" onclick="toggleMenu()" class="block text-slate-300 hover:text-brand-cyan py-1">/Contact</a>
+      <button onclick="toggleDeployGuide(true); toggleMenu()" class="w-full text-left text-brand-cyan py-2 border-t border-slate-800 text-xs">
+        &gt; Deploy Guide (GitHub Pages)
+      </button>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section id="hero" class="relative pt-16 pb-24 md:pt-28 md:pb-36 bg-grid border-b border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      
+      <!-- Status Badge -->
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/90 border border-brand-cyan/30 mb-8 text-xs font-mono text-slate-300 backdrop-blur-sm shadow-inner">
+        <span class="w-2.5 h-2.5 rounded-full bg-brand-emerald animate-ping"></span>
+        <span class="text-brand-cyan font-semibold">Active Status:</span> Mechatronics R&D & Autonomous Systems
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <!-- Hero Text Column -->
+        <div class="lg:col-span-7 space-y-6">
+          <div class="space-y-2">
+            <span class="text-sm font-mono text-brand-accent tracking-wider uppercase">Hello, I am</span>
+            <h1 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-tight">
+              ISHU<span class="text-brand-cyan">.</span>
+            </h1>
+            <p class="text-xl sm:text-2xl font-medium text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan via-brand-accent to-brand-violet">
+              Mechatronics & Robotics Engineer
+            </p>
+          </div>
+
+          <p class="text-base sm:text-lg text-slate-400 max-w-2xl leading-relaxed">
+            Specializing in <span class="text-slate-100 font-semibold">autonomous navigation</span>, <span class="text-slate-100 font-semibold">computer vision stacks</span>, sensor fusion (Wheel Odometry + IMU), and deterministic actuation. Currently retro-engineering electric tractors for precision autonomy and engineering simulation pipelines in CARLA & ROS 2.
+          </p>
+
+          <!-- Quick Metrics Bar -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-xl py-2">
+            <div class="bg-brand-surface/90 border border-slate-800 p-3.5 rounded-2xl">
+              <span class="text-2xl font-bold font-mono text-brand-cyan">8.93</span>
+              <span class="text-[11px] text-slate-400 block mt-0.5">SRM CGPA</span>
+            </div>
+            <div class="bg-brand-surface/90 border border-slate-800 p-3.5 rounded-2xl">
+              <span class="text-2xl font-bold font-mono text-brand-accent">8+</span>
+              <span class="text-[11px] text-slate-400 block mt-0.5">Robotics Projects</span>
+            </div>
+            <div class="bg-brand-surface/90 border border-slate-800 p-3.5 rounded-2xl">
+              <span class="text-2xl font-bold font-mono text-brand-emerald">IIT-G</span>
+              <span class="text-[11px] text-slate-400 block mt-0.5">AIML Minor</span>
+            </div>
+            <div class="bg-brand-surface/90 border border-slate-800 p-3.5 rounded-2xl">
+              <span class="text-2xl font-bold font-mono text-brand-violet">ROS 2</span>
+              <span class="text-[11px] text-slate-400 block mt-0.5">&amp; CARLA Stack</span>
+            </div>
+          </div>
+
+          <!-- Quick CTAs -->
+          <div class="flex flex-wrap items-center gap-4 pt-3">
+            <a href="#projects" class="px-6 py-3.5 rounded-xl bg-gradient-to-r from-brand-cyan to-brand-accent hover:from-brand-accent hover:to-brand-cyan text-brand-dark font-semibold text-sm transition-all hover:scale-105 shadow-lg shadow-brand-cyan/20 flex items-center gap-2">
+              Explore Projects
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </a>
+            
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="px-5 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 font-mono text-xs transition flex items-center gap-2 hover:border-brand-accent">
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+              GitHub Repos
+            </a>
+
+            <a href="tel:7903993370" class="px-5 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 font-mono text-xs transition flex items-center gap-2">
+              <svg class="w-3.5 h-3.5 text-brand-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+              +91 7903993370
+            </a>
+          </div>
+        </div>
+
+        <!-- Hero Cybernetic Console Card -->
+        <div class="lg:col-span-5 relative">
+          <div class="bg-brand-surface border border-slate-800 rounded-3xl p-6 shadow-2xl relative overflow-hidden backdrop-blur-md">
+            
+            <!-- Terminal Header -->
+            <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+              <div class="flex items-center space-x-2">
+                <span class="w-3 h-3 rounded-full bg-rose-500/80"></span>
+                <span class="w-3 h-3 rounded-full bg-amber-500/80"></span>
+                <span class="w-3 h-3 rounded-full bg-emerald-500/80"></span>
+              </div>
+              <span class="font-mono text-xs text-slate-400">ekf_sensor_fusion.py</span>
+              <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/20">LIVE TELEMETRY</span>
+            </div>
+
+            <!-- Terminal Output Visual -->
+            <div class="mt-4 font-mono text-xs space-y-2.5 text-slate-300 overflow-x-auto leading-relaxed">
+              <p class="text-slate-500"># Autonomous Odometry &amp; State Estimation</p>
+              <p><span class="text-purple-400">from</span> sensors <span class="text-purple-400">import</span> WheelEncoder, IMU9DOF, RTK_GPS</p>
+              <p><span class="text-purple-400">from</span> navigation <span class="text-purple-400">import</span> ExtendedKalmanFilter, MPCTracker</p>
+              
+              <p class="text-slate-400 pt-1"><span class="text-blue-400">class</span> <span class="text-yellow-300">AutonomousSystem</span>(Node):</p>
+              <p class="pl-4 text-slate-300">def update_state(self, odom, imu_yaw):</p>
+              <p class="pl-8 text-brand-cyan">self.ekf.predict(u=odom.velocity, dt=0.02)</p>
+              <p class="pl-8 text-brand-accent">self.ekf.update_imu(z=imu_yaw, R=0.01)</p>
+              <p class="pl-8 text-emerald-400">drift_error = self.calculate_drift()  # &lt; 0.012 m/s</p>
+              
+              <div class="p-3 bg-brand-card rounded-xl border border-slate-800 text-[11px] space-y-1 mt-3">
+                <div class="flex justify-between text-slate-300">
+                  <span>MPC Cost Function:</span>
+                  <span class="text-brand-emerald font-semibold">CONVERGED (0.0034)</span>
+                </div>
+                <div class="flex justify-between text-slate-300">
+                  <span>LiDAR + RTK GPS Lock:</span>
+                  <span class="text-brand-cyan font-semibold">FIXED (RTK-FLOAT)</span>
+                </div>
+                <div class="flex justify-between text-slate-300">
+                  <span>Pose: [X: 14.82m, Y: 8.35m, &theta;: 42.1&deg;]</span>
+                  <span class="text-brand-violet font-semibold">NOMINAL</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-[11px] font-mono text-slate-400">
+              <span class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-brand-cyan animate-ping"></span>
+                SRM Mechatronics Lab
+              </span>
+              <span>Chennai, 603203</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT ME SECTION -->
+  <section id="about" class="py-20 border-b border-slate-800/80 bg-brand-surface/40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <!-- Left summary -->
+        <div class="lg:col-span-6 space-y-5">
+          <span class="text-xs font-mono tracking-widest text-brand-cyan uppercase font-semibold">Engineering Profile</span>
+          <h2 class="text-3xl sm:text-4xl font-bold text-white tracking-tight">
+            Seamless Hardware Implementation Meets Machine Intelligence
+          </h2>
+          <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+            I am a Mechatronics Engineer at <strong class="text-white">SRM IST Kattankulathur</strong> (CGPA: 8.93) with a Minor in <strong class="text-white">AI/ML from IIT Guwahati</strong>. My core expertise sits at the physical-digital intersection: engineering kinematic linkages, actuators, and motor drives, and driving them through modern autonomy stacks.
+          </p>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Whether modeling multi-body dynamics in SolidWorks &amp; FluidSIM, writing embedded control loops in C++/Arduino, or training vision models with OpenCV, NumPy, and PyTorch, my focus is delivering deterministic, collision-free autonomous systems.
+          </p>
+
+          <div class="grid grid-cols-2 gap-4 pt-2">
+            <div class="p-4 rounded-2xl bg-brand-card border border-slate-800">
+              <span class="text-brand-cyan text-xs font-mono block">Hardware Implementation</span>
+              <span class="text-white font-semibold text-sm mt-1 block">SolidWorks, Arduino, FluidSIM, LTSpice, CNC</span>
+            </div>
+            <div class="p-4 rounded-2xl bg-brand-card border border-slate-800">
+              <span class="text-brand-violet text-xs font-mono block">Autonomous Systems</span>
+              <span class="text-white font-semibold text-sm mt-1 block">ROS 2, CARLA, MPC, EKF Sensor Fusion, RTK-GPS</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right pillars -->
+        <div class="lg:col-span-6 space-y-4">
+          
+          <div class="p-5 rounded-2xl bg-brand-card border border-brand-cardBorder hover:border-brand-cyan/40 transition">
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-xl bg-brand-cyan/15 text-brand-cyan flex items-center justify-center shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+              </div>
+              <div>
+                <h3 class="text-base font-bold text-white">Full-Stack Autonomy (CARLA &amp; ROS 2)</h3>
+                <p class="text-slate-400 text-xs sm:text-sm mt-1 leading-relaxed">
+                  Deep experience formulating Model Predictive Control (MPC), dynamic obstacle tracking with Extended Kalman Filters (EKF), and 2D grid path planning for ground vehicles.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-brand-card border border-brand-cardBorder hover:border-brand-accent/40 transition">
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-xl bg-brand-accent/15 text-brand-accent flex items-center justify-center shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+              </div>
+              <div>
+                <h3 class="text-base font-bold text-white">Computer Vision &amp; Spatial Calibration</h3>
+                <p class="text-slate-400 text-xs sm:text-sm mt-1 leading-relaxed">
+                  Real-time multi-agent tracking using ceiling-mounted cameras, homography coordinate transformations, OpenCV contour pipelines, and audio spectral processing via Librosa.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-brand-card border border-brand-cardBorder hover:border-brand-emerald/40 transition">
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-xl bg-brand-emerald/15 text-brand-emerald flex items-center justify-center shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+              </div>
+              <div>
+                <h3 class="text-base font-bold text-white">Physical Prototyping &amp; EV Conversion</h3>
+                <p class="text-slate-400 text-xs sm:text-sm mt-1 leading-relaxed">
+                  Hands-on engineering: retrofitting agricultural tractors into electric autonomous machines with RTK-GPS &amp; LiDAR, building pick-and-place arms, and live IoT dashboards.
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS SHOWCASE SECTION -->
+  <section id="projects" class="py-20 border-b border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Header -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-10">
+        <div>
+          <span class="text-xs font-mono tracking-widest text-brand-cyan uppercase font-semibold">Flagship Work</span>
+          <h2 class="text-3xl sm:text-4xl font-bold text-white mt-1">Featured Engineering Projects</h2>
+        </div>
+        <p class="text-slate-400 text-sm max-w-md mt-2 md:mt-0 font-sans">
+          Click <strong class="text-brand-cyan">"Inspect System Architecture"</strong> on any project to examine algorithms, sensor hardware, and performance metrics.
+        </p>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="flex flex-wrap gap-2 mb-10 border-b border-slate-800 pb-4">
+        <button onclick="filterProjects('all')" class="project-tab active px-4 py-2 rounded-xl text-xs font-mono border transition bg-brand-cyan/20 text-brand-cyan border-brand-cyan/40" data-cat="all">All Systems (8)</button>
+        <button onclick="filterProjects('autonomous')" class="project-tab px-4 py-2 rounded-xl text-xs font-mono border transition bg-brand-card text-slate-400 border-slate-800 hover:text-white" data-cat="autonomous">Autonomous &amp; Robotics</button>
+        <button onclick="filterProjects('vision')" class="project-tab px-4 py-2 rounded-xl text-xs font-mono border transition bg-brand-card text-slate-400 border-slate-800 hover:text-white" data-cat="vision">Vision &amp; AI</button>
+        <button onclick="filterProjects('embedded')" class="project-tab px-4 py-2 rounded-xl text-xs font-mono border transition bg-brand-card text-slate-400 border-slate-800 hover:text-white" data-cat="embedded">Embedded &amp; Hardware</button>
+      </div>
+
+      <!-- Project Cards Grid -->
+      <div id="projectGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- 1. Autonomous Self-Driving Agriculture Tractor (FLAGSHIP ONGOING) -->
+        <div class="project-card bg-brand-surface rounded-2xl border border-brand-cardBorder overflow-hidden hover:border-brand-emerald/50 transition-all flex flex-col group glow-card" data-category="autonomous">
+          <div class="h-48 bg-slate-950 p-4 relative flex items-center justify-center border-b border-slate-800/80">
+            <!-- Schematic SVG -->
+            <svg class="w-full h-full text-brand-emerald opacity-90 transition-transform group-hover:scale-105" viewBox="0 0 300 150" fill="none" stroke="currentColor">
+              <!-- Tractor Chassis -->
+              <rect x="50" y="55" width="140" height="40" rx="8" stroke-width="2.5" fill="rgba(16, 185, 129, 0.05)"/>
+              <circle cx="80" cy="100" r="22" stroke-width="3" stroke="#10b981"/>
+              <circle cx="170" cy="105" r="16" stroke-width="3" stroke="#10b981"/>
+              <rect x="65" y="25" width="45" height="30" rx="4" stroke-width="2"/>
+              <!-- LiDAR sensor top -->
+              <polygon points="82,25 92,15 98,25" fill="#38bdf8" stroke="#38bdf8"/>
+              <!-- RTK-GPS Antenna -->
+              <line x1="160" y1="55" x2="160" y2="25" stroke="#00f2fe" stroke-width="2"/>
+              <circle cx="160" cy="22" r="4" fill="#00f2fe"/>
+              <!-- Field Path scan cone -->
+              <path d="M190 75 L280 40 L280 120 Z" stroke-dasharray="3 3" stroke-width="1.5" stroke="#38bdf8"/>
+              <text x="205" y="85" font-size="8" fill="#38bdf8" font-family="monospace">LiDAR + Vision</text>
+            </svg>
+            <span class="absolute top-3 left-3 text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> ONGOING FLAGSHIP
+            </span>
+            <span class="absolute top-3 right-3 text-[10px] font-mono px-2 py-0.5 rounded bg-slate-900 text-slate-300 border border-slate-700">EV + Autonomy</span>
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="text-lg font-bold text-white group-hover:text-brand-emerald transition-colors">
+                Autonomous Self-Driving Agriculture Tractor
+              </h3>
+              <p class="text-slate-400 text-xs mt-2 leading-relaxed">
+                Retro-engineering a secondhand diesel tractor into a clean electric vehicle with an advanced powertrain, integrating an AI-driven vision stack, LiDAR, and RTK-GPS for precision agriculture autonomy.
+              </p>
+              <div class="mt-4 flex flex-wrap gap-1.5">
+                <span class="text-[11px] font-mono bg-slate-900 text-brand-emerald px-2 py-0.5 rounded border border-emerald-500/30">EV Powertrain</span>
+                <span class="text-[11px] font-mono bg-slate-900 text-slate-300 px-2 py-0.5 rounded border border-slate-800">RTK-GPS</span>
+                <span class="text-[11px] font-mono bg-slate-900 text-slate-300 px-2 py-0.5 rounded border border-slate-800">3D LiDAR</span>
+                <span class="text-[11px] font-mono bg-slate-900 text-slate-300 px-2 py-0.5 rounded border border-slate-800">AI Vision</span>
+              </div>
+            </div>
+            <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between">
+              <button onclick="openModal('tractor')" class="text-xs font-mono text-brand-emerald hover:underline flex items-center gap-1 font-semibold">
+                Inspect Architecture &rarr;
+              </button>
+              <span class="text-[11px] font-mono text-slate-500">SRM IST</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Tracking & Detection of Dynamic Objects in CARLA -->
+        <div class="project-card bg-brand-surface rounded-2xl border border-brand-cardBorder overflow-hidden hover:border-brand-cyan/50 transition-all flex flex-col group glow-card" data-category="autonomous">
+          <div class="h-48 bg-slate-950 p-4 relative flex items-center justify-center border-b border-slate-800/80">
+            <svg class="w-full h-full text-brand-cyan opacity-90 transition-transform group-hover:scale-105" viewBox="0 0 300 150" fill="none" stroke="currentColor">
+              <!-- Road Curvature -->
+              <path d="M40 150 C 90 90, 120 50, 160 0" stroke="#334155" stroke-width="24"/>
+              <path d="M120 150 C 170 90, 200 50, 240 0" stroke="#334155" stroke-width="24"/>
+              <path d="M80 150 C 130 90, 160 50, 200 0" stroke="#64748b" stroke-width="2" stroke-dasharray="6 6"/>
+              <!-- Optimal MPC Trajectory -->
+              <path d="M85 140 Q 120 95, 148 55 T 185 15" stroke="#00f2fe" stroke-width="3"/>
+              <!-- Tracked dynamic obstacle -->
+              <rect x="135" y="40" width="26" height="18" rx="3" stroke="#f43f5e" stroke-width="2" fill="rgba(244, 63, 94, 0.25)"/>
+              <text x="135" y="32" font-size="7" fill="#f43f5e" font-family="monospace">Dynamic: EKF Vel</text>
+            </svg>
+            <span class="absolute top-3 right-3 text-[10px] font-mono px-2 py-0.5 rounded bg-brand-cyan/20 text-brand-cyan border border-brand-cyan/30">CARLA Simulator</span>
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="text-lg font-bold text-white group-hover:text-brand-cyan transition-colors">
+                Dynamic Object Tracking &amp; MPC Navigation
+              </h3>
+              <p class="text-slate-400 text-xs mt-2 leading-relaxed">
+                End-to-end perception and navigation stack in CARLA simulator using Kalman Filters and path planning algorithms. Implemented Model Predictive Control (MPC) for collision-free trajectory tracking.
+              </p>
+              <div class="mt-4 flex flex-wrap gap-1.5">
+                <span class="text-[11px] font-mono bg-slate-900 text-brand-cyan px-2 py-0.5 rounded border border-cyan-500/30">CARLA</span>
+                <span class="text-[11px] font-mono bg-slate-900 text-slate-300 px-2 py-0.5 rounded border border-slate-800">Kalman Filter (EKF)</span>
+                <span class="text-[11px] font-mono bg-slate-900 text-slate-300 px-2 py-0.5 rounded border border-slate-800">MPC Control</span>
+                <span class="text-[11px] font-mono bg-slate-900 text-slate-300 px-2 py-0.5 rounded border border-slate-800">Python</span>
+              </div>
+            </div>
+            <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between">
+              <button onclick="openModal('carla')" class="text-xs font-mono text-brand-cyan hover:underline flex items-center gap-1 font-semibold">
+                Inspect Architecture &rarr;
+              </button>
+              <span class="text-[11px] font-mono text-slate-500">Autonomous Stack</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Overhead Vision-Based Multi-Robot Localization -->
+        <div class="project-card bg-brand-surface rounded-2xl border border-brand-cardBorder overflow-hidden hover:border-brand-violet/50 transition-all flex flex-col group glow-card" data-category="vision">
+          <div class="h-48 bg-slate-950 p-4 relative flex items-center justify-center border-b border-slate-800/80">
+            <svg class="w-full h-full text-brand-violet opacity-90 transition-transform group-hover:scale-105" viewBox="0 0 300 150" fill="none" stroke="currentColor">
+              <!-- Ceiling Dual Cameras -->
+              <rect x="75" y="10" width="30" height="18" rx="2" stroke-width="2"/>
+              <rect x="195" y="10" width="30" height="18" rx="2" stroke-width="2"/>
+              <!-- FOV Overlap -->
+              <path d="M75 28 L20 130 L160 130 Z" stroke-dasharray="3 3" stroke-width="1.2" stroke="#818cf8"/>
+              <path d="M225 28 L140 130 L280 130 Z" stroke-dasharray="3 3" stroke-width="1.2" stroke="#00f2fe"/>
+              <!-- Duckiebot Agents -->
+              <circle cx="100" cy="110" r="10" fill="#facc15" stroke="#facc15"/>
+              <circle cx="200" cy="100" r="10" fill="#facc15" stroke="#facc15"/>
+              <text x="150" y="35" font-size="8" fill="#818cf8" font-family="monospace">Homography Matrix</text>
+            </svg>
+            <span class="absolute top-3 right-3 text-[10px] font-mono px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">Computer Vision</span>
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="text-lg font-bold text-white group-hover:text-brand-violet transition-colors">
+                Overhead Multi-Robot Localization (Duckiebots)
+              </h3>
+              <p class="text-slate-400 text-xs mt-2 leading-relaxed">
+                Centralized multi-robot tracking framework utilizing two ceiling-mounted cameras to localize and plot trajectories of Duckiebots in real time with homography transformations.
+              </p>
+              <div class="mt-4 flex flex-wrap gap-1.5">
+                <span class="text-[11px] font-mono bg-slate-900 text-brand-violet px-2 py-0.5 rounded border border-purple-500/30">Dual Cameras</span>
+                <span class="text-[11px] font-mono bg-slate-900 text-slate-300 px-2 py-0.5 rounded border border-slate-800">OpenCV</span>
+                <span class="text-[11px] font-mono bg-slate-900 text-slate-300 px-2 py-0.5 rounded border border-slate-800">Homography</span>
+                <span class="text-[11px] font-mono bg-slate-900 text-slate-300 px-2 py-0.5 rounded border border-slate-800">Duckiebot</span>
+              </div>
+            </div>
+            <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between">
+              <button onclick="openModal('overhead')" class="text-xs font-mono text-brand-violet hover:underline flex items-center gap-1 font-semibold">
+                Inspect Architecture &rarr;
+              </button>
+              <span class="text-[11px] font-mono text-slate-500">Arena Tracking</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Ground Mobile Robot (Differential Drive + Sensor Fusion) -->
+        <div class="project-card bg-brand-surface rounded-2xl border border-brand-cardBorder overflow-hidden hover:border-brand-accent/50 transition-all flex flex-col group glow-card" data-category="autonomous">
+          <div class="h-48 bg-slate-950 p-4 relative flex items-center justify-center border-b border-slate-800/80">
+            <svg class="w-full h-full text-brand-accent opacity-90 transition-transform group-hover:scale-105" viewBox="0 0 300 150" fill="none" stroke="currentColor">
+              <!-- Differential Drive Robot Body -->
+              <rect x="100" y="45" width="100" height="60" rx="8" stroke-width="2" fill="rgba(56, 189, 248, 0.05)"/>
+              <!-- Wheels -->
+              <rect x="85" y="40" width="14" height="28" rx="3" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+              <rect x="85" y="82" width="14" height="28" rx="3" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+              <circle cx="180" cy="75" r="8" fill="#334155" stroke="#94a3b8"/>
+              <!-- IMU Sensor Fusion Vector -->
+              <circle cx="140" cy="75" r="10" stroke="#00f2fe" stroke-width="2"/>
+              <line x1="140" y1="75" x2="165" y2="75" stroke="#00f2fe" stroke-width="2.5"/>
+              <text x="110" y="130" font-size="8" fill="#94a3b8" font-family="monospace">Wheel Odom + IMU (EKF)</text>
+            </svg>
+            <span class="absolute top-3 right-3 text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/20 text-brand-cyan border border-cyan-500/30">Mobile Robotics</span>
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="text-lg font-bold text-white group-hover:text-brand-accent transition-colors">
+                Differential-Drive Robot with EKF Fusion
+              </h3>
+              <p class="text-slate-400 text-xs mt-2 leading-relaxed">
+                Engineered differential robot fusing optical encoders with 6-DOF IMU for drift-free pose estimation. Deployed 2D grid mapping and path planning for collision-free trajectory execution.
+              </p>
+              <div class="mt-4 flex flex-wrap gap-1.5">
+                <span class="text-[11px] font-mono bg-slate-900 text-brand-accent px-2 py-0.5 rounded border border-cyan-500/30">Sensor Fusion</span>
+                <span class="text-[11px] font-mono bg-slate-900 text-slate-300 px-2 py-0.5 rounded border border-slate-800">Optical Encoders</span>
+                <span class="text-[11px] font-mono bg-slate-900 text-slate-300 px-2 py-0.5 rounded border border-slate-800">IMU</span>
+                <span class="text-[11px] font-mono bg-slate-900 text-slate-300 px-2 py-0.5 rounded border border-slate-800">2D Grid Mapping</span>
+              </div>
+            </div>
+            <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between">
+              <button onclick="openModal('mobile_robot')" class="text-xs font-mono text-brand-accent hover:underline flex items-center gap-1 font-semibold">
+                Inspect Architecture &rarr;
+              </button>
+              <span class="text-[11px] font-mono text-slate-500">Autonomous AMR</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. AIML for Perception and Path Planning (ONGOING) -->
+        <div class="project-card bg-brand-surface rounded-2xl border border-brand-cardBorder overflow-hidden hover:border-brand-cyan/50 transition-all flex flex-col group glow-card" data-category="vision">
+          <div class="h-48 bg-slate-950 p-4 relative flex items-center justify-center border-b border-slate-800/80">
+            <svg class="w-full h-full text-brand-cyan opacity-90 transition-transform group-hover:scale-105" viewBox="0 0 300 150" fill="none" stroke="currentColor">
+              <!-- Neural Layer nodes -->
+              <circle cx="50" cy="50" r="8" stroke="#38bdf8" stroke-width="2"/>
+              <circle cx="50" cy="100" r="8" stroke="#38bdf8" stroke-width="2"/>
+              <circle cx="120" cy="35" r="8" stroke="#00f2fe" stroke-width="2"/>
+              <circle cx="120" cy="75" r="8" stroke="#00f2fe" stroke-width="2"/>
+              <circle cx="120" cy="115" r="8" stroke="#00f2fe" stroke-width="2"/>
+              <circle cx="190" cy="50" r="8" stroke="#818cf8" stroke-width="2"/>
+              <circle cx="190" cy="100" r="8" stroke="#818cf8" stroke-width="2"/>
+              <line x1="58" y1="50" x2="112" y2="35" stroke="#334155"/>
+              <line x1="58" y1="50" x2="112" y2="75" stroke="#334155"/>
+              <line x1="58" y1="100" x2="112" y2="75" stroke="#334155"/>
+              <line x1="58" y1="100" x2="112" y2="115" stroke="#334155"/>
+              <line x1="128" y1="75" x2="182" y2="50" stroke="#334155"/>
+              <line x1="128" y1="75" x2="182" y2="100" stroke="#334155"/>
+              <text x="215" y="80" font-size="8" fill="#00f2fe" font-family="monospace">Path Policy</text>
+            </svg>
+            <span class="absolute top-3 left-3 text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping"></span> ONGOING RESEARCH
+            </span>
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="text-lg font-bold text-white group-hover:text-brand-cyan transition-colors">
+                AIML for Perception &amp; Adaptive Path Planning
+              </h3>
+              <p class="text-slate-400 text-xs mt-2 leading-relaxed">
+                Ongoing research in deep learning computer vision architectures for dynamic obstacle detection, semantic road parsing, and neural reinforcement/heuristic path planning.
+              </p>
+              <div class="mt-4 flex flex-wrap gap-1.5">
+                <span class="text-[11px] font-mono bg-slate-900 text-brand-cyan px-2 py-0.5 rounded border border-cyan-500/30">AI/ML</span>
+                <span class="text-[11px] font-mono bg-slate-900 text-slate-300 px-2 py-0.5 rounded border border-slate-800">PyTorch</span>
+                <span class="text-[11px] font-mono bg-slate-900 text-slate-300 px-2 py-0.5 rounded border border-slate-800">OpenCV</span>
+                <span class="text-[11px] font-mono bg-slate-900 text-slate-300 px-2 py-0.5 rounded border border-slate-800">Path Planning</span>
+              </div>
+            </div>
+            <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between">
+              <button onclick="openModal('aiml_path')" class="text-xs font-mono text-brand-cyan hover:underline flex items-center gap-1 font-semibold">
+                Inspect Architecture &rarr;
+              </button>
+              <span class="text-[11px] font-mono text-slate-500">IIT-G &amp; SRM</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. Smart Weighing Machine with Live Website Monitoring -->
+        <div class="project-card bg-brand-surface rounded-2xl border border-brand-cardBorder overflow-hidden hover:border-brand-emerald/50 transition-all flex flex-col group glow-card" data-category="embedded">
+          <div class="h-48 bg-slate-950 p-4 relative flex items-center justify-center border-b border-slate-800/80">
+            <svg class="w-full h-full text-brand-emerald opacity-90 transition-transform group-hover:scale-105" viewBox="0 0 300 150" fill="none" stroke="currentColor">
+              <!-- Load Cell Platform -->
+              <rect x="70" y="80" width="160" height="15" rx="3" stroke-width="2"/>
+              <line x1="90" y1="95" x2="90" y2="120" stroke-width="3"/>
+              <line x1="210" y1="95" x2="210" y2="120" stroke-width="3"/>
+              <!-- Light Sensor Beam -->
+              <circle cx="150" cy="50" r="14" stroke="#10b981" stroke-width="2"/>
+              <line x1="150" y1="20" x2="150" y2="35" stroke="#f59e0b" stroke-dasharray="2 2" stroke-width="2"/>
+              <!-- Live Web telemetry signal -->
+              <path d="M220 40 Q 240 25, 260 40 T 280 40" stroke="#38bdf8" stroke-width="2"/>
+              <text x="95" y="70" font-size="8" fill="#10b981" font-family="monospace">Optical Sensor + ADC</text>
+            </svg>
+            <span class="absolute top-3 right-3 text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">IoT &amp; Sensors</span>
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="text-lg font-bold text-white group-hover:text-brand-emerald transition-colors">
+                Smart Weighing Machine &amp; Web Telemetry
+              </h3>
+              <p class="text-slate-400 text-xs mt-2 leading-relaxed">
+                Smart instrumentation system with light sensor technology and microcontrollers for automated weight measurement, streaming metrics to a live website interface for real-time monitoring.
+              </p>
+              <div class="mt-4 flex flex-wrap gap-1.5">
+                <span class="text-[11px] font-mono bg-slate-900 text-brand-emerald px-2 py-0.5 rounded border border-emerald-500/30">Arduino</span>
+                <span class="text-[11px] font-mono bg-slate-900 text-slate-300 px-2 py-0.5 rounded border border-slate-800">Light Sensor</span>
+                <span class="text-[11px] font-mono bg-slate-900 text-slate-300 px-2 py-0.5 rounded border border-slate-800">Web Telemetry</span>
+                <span class="text-[11px] font-mono bg-slate-900 text-slate-300 px-2 py-0.5 rounded border border-slate-800">IoT</span>
+              </div>
+            </div>
+            <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between">
+              <button onclick="openModal('weighing')" class="text-xs font-mono text-brand-emerald hover:underline flex items-center gap-1 font-semibold">
+                Inspect Architecture &rarr;
+              </button>
+              <span class="text-[11px] font-mono text-slate-500">Live IoT</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7. Pick & Place Robot Manipulator -->
+        <div class="project-card bg-brand-surface rounded-2xl border border-brand-cardBorder overflow-hidden hover:border-brand-amber/50 transition-all flex flex-col group glow-card" data-category="embedded">
+          <div class="h-48 bg-slate-950 p-4 relative flex items-center justify-center border-b border-slate-800/80">
+            <svg class="w-full h-full text-brand-amber opacity-90 transition-transform group-hover:scale-105" viewBox="0 0 300 150" fill="none" stroke="currentColor">
+              <!-- Arm Base -->
+              <rect x="70" y="110" width="50" height="15" rx="3" stroke-width="2"/>
+              <!-- Links -->
+              <line x1="95" y1="110" x2="135" y2="60" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
+              <circle cx="135" cy="60" r="5" fill="#f59e0b"/>
+              <line x1="135" y1="60" x2="195" y2="70" stroke="#f59e0b" stroke-width="3.5" stroke-linecap="round"/>
+              <circle cx="195" cy="70" r="4" fill="#f59e0b"/>
+              <!-- Gripper -->
+              <path d="M195 70 L210 60 L215 65" stroke="#38bdf8" stroke-width="2"/>
+              <path d="M195 70 L210 80 L215 75" stroke="#38bdf8" stroke-width="2"/>
+              <rect x="215" y="62" width="10" height="16" fill="#10b981" stroke="none"/>
+              <text x="80" y="35" font-size="8" fill="#94a3b8" font-family="monospace">Servo Forward/Inverse Kinematics</text>
+            </svg>
+            <span class="absolute top-3 right-3 text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">Robotic Arm</span>
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="text-lg font-bold text-white group-hover:text-brand-amber transition-colors">
+                Pick &amp; Place Robotic Manipulator
+              </h3>
+              <p class="text-slate-400 text-xs mt-2 leading-relaxed">
+                Multi-axis robotic manipulator using Arduino microcontroller and precision servo motors. Implemented kinematic control algorithms for accurate positioning and reliable object handling operations.
+              </p>
+              <div class="mt-4 flex flex-wrap gap-1.5">
+                <span class="text-[11px] font-mono bg-slate-900 text-brand-amber px-2 py-0.5 rounded border border-amber-500/30">Servo Actuation</span>
+                <span class="text-[11px] font-mono bg-slate-900 text-slate-300 px-2 py-0.5 rounded border border-slate-800">Arduino IDE</span>
+                <span class="text-[11px] font-mono bg-slate-900 text-slate-300 px-2 py-0.5 rounded border border-slate-800">Kinematics</span>
+                <span class="text-[11px] font-mono bg-slate-900 text-slate-300 px-2 py-0.5 rounded border border-slate-800">SolidWorks</span>
+              </div>
+            </div>
+            <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between">
+              <button onclick="openModal('pick_place')" class="text-xs font-mono text-brand-amber hover:underline flex items-center gap-1 font-semibold">
+                Inspect Architecture &rarr;
+              </button>
+              <span class="text-[11px] font-mono text-slate-500">Manipulation</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 8. Automating Pan Flute Instrument -->
+        <div class="project-card bg-brand-surface rounded-2xl border border-brand-cardBorder overflow-hidden hover:border-brand-violet/50 transition-all flex flex-col group glow-card" data-category="embedded">
+          <div class="h-48 bg-slate-950 p-4 relative flex items-center justify-center border-b border-slate-800/80">
+            <svg class="w-full h-full text-brand-violet opacity-90 transition-transform group-hover:scale-105" viewBox="0 0 300 150" fill="none" stroke="currentColor">
+              <!-- Pan Flute Pipes -->
+              <rect x="70" y="40" width="14" height="85" rx="3" stroke-width="2"/>
+              <rect x="90" y="50" width="14" height="75" rx="3" stroke-width="2"/>
+              <rect x="110" y="60" width="14" height="65" rx="3" stroke-width="2"/>
+              <rect x="130" y="70" width="14" height="55" rx="3" stroke-width="2"/>
+              <rect x="150" y="80" width="14" height="45" rx="3" stroke-width="2"/>
+              <!-- Servo Air Nozzle -->
+              <polygon points="110,25 125,25 117,38" fill="#818cf8"/>
+              <!-- Acoustic wave -->
+              <path d="M175 60 Q 190 45, 205 60 T 235 60" stroke="#00f2fe" stroke-width="2"/>
+              <text x="175" y="35" font-size="8" fill="#00f2fe" font-family="monospace">Acoustic Modulation</text>
+            </svg>
+            <span class="absolute top-3 right-3 text-[10px] font-mono px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">Acoustic Mechatronics</span>
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="text-lg font-bold text-white group-hover:text-brand-violet transition-colors">
+                Automating Pan Flute Musical System
+              </h3>
+              <p class="text-slate-400 text-xs mt-2 leading-relaxed">
+                Automated acoustic musical system utilizing Arduino and high-precision servo motors to generate calibrated musical notes through micro-servo actuated airflow modulation.
+              </p>
+              <div class="mt-4 flex flex-wrap gap-1.5">
+                <span class="text-[11px] font-mono bg-slate-900 text-brand-violet px-2 py-0.5 rounded border border-purple-500/30">Arduino</span>
+                <span class="text-[11px] font-mono bg-slate-900 text-slate-300 px-2 py-0.5 rounded border border-slate-800">Servo Airflow</span>
+                <span class="text-[11px] font-mono bg-slate-900 text-slate-300 px-2 py-0.5 rounded border border-slate-800">Acoustics</span>
+                <span class="text-[11px] font-mono bg-slate-900 text-slate-300 px-2 py-0.5 rounded border border-slate-800">Actuation</span>
+              </div>
+            </div>
+            <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between">
+              <button onclick="openModal('pan_flute')" class="text-xs font-mono text-brand-violet hover:underline flex items-center gap-1 font-semibold">
+                Inspect Architecture &rarr;
+              </button>
+              <span class="text-[11px] font-mono text-slate-500">Mechatronic Music</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS MATRIX SECTION -->
+  <section id="skills" class="py-20 border-b border-slate-800/80 bg-brand-surface/30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="text-xs font-mono tracking-widest text-brand-cyan uppercase font-semibold">Technical Arsenal</span>
+        <h2 class="text-3xl sm:text-4xl font-bold text-white mt-1">Multi-Disciplinary Engineering Stack</h2>
+        <p class="text-slate-400 text-sm mt-3">
+          Hardware modeling, dynamic control math, computer vision algorithms, and embedded micro-controllers.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <!-- Pillar 1: CAD & FEA Simulation -->
+        <div class="p-6 rounded-2xl bg-brand-card border border-brand-cardBorder">
+          <div class="flex items-center gap-3 mb-5">
+            <span class="p-2.5 rounded-xl bg-brand-cyan/15 text-brand-cyan">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+            </span>
+            <h3 class="font-bold text-white text-base">CAD, FEA &amp; Simulation</h3>
+          </div>
+          <div class="space-y-3 font-mono text-xs">
+            <div>
+              <div class="flex justify-between text-slate-300 mb-1">
+                <span>SolidWorks &amp; AutoCAD</span>
+                <span class="text-brand-cyan">92%</span>
+              </div>
+              <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                <div class="bg-brand-cyan h-full rounded-full" style="width: 92%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-slate-300 mb-1">
+                <span>ANSYS FEA</span>
+                <span class="text-brand-cyan">80%</span>
+              </div>
+              <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                <div class="bg-brand-cyan h-full rounded-full" style="width: 80%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-slate-300 mb-1">
+                <span>FluidSIM &amp; Hydraulics</span>
+                <span class="text-brand-cyan">85%</span>
+              </div>
+              <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                <div class="bg-brand-cyan h-full rounded-full" style="width: 85%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-slate-300 mb-1">
+                <span>MATLAB &amp; Simulink</span>
+                <span class="text-brand-cyan">88%</span>
+              </div>
+              <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                <div class="bg-brand-cyan h-full rounded-full" style="width: 88%"></div>
+              </div>
+            </div>
+            <div class="pt-2 flex flex-wrap gap-1.5">
+              <span class="px-2 py-0.5 rounded bg-slate-800/80 text-slate-400 text-[10px]">LTSpice</span>
+              <span class="px-2 py-0.5 rounded bg-slate-800/80 text-slate-400 text-[10px]">CNC Machining</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pillar 2: AI, ML & Computer Vision -->
+        <div class="p-6 rounded-2xl bg-brand-card border border-brand-cardBorder">
+          <div class="flex items-center gap-3 mb-5">
+            <span class="p-2.5 rounded-xl bg-brand-accent/15 text-brand-accent">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+            </span>
+            <h3 class="font-bold text-white text-base">AI, ML &amp; Perception</h3>
+          </div>
+          <div class="space-y-3 font-mono text-xs">
+            <div>
+              <div class="flex justify-between text-slate-300 mb-1">
+                <span>OpenCV Computer Vision</span>
+                <span class="text-brand-accent">90%</span>
+              </div>
+              <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                <div class="bg-brand-accent h-full rounded-full" style="width: 90%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-slate-300 mb-1">
+                <span>NumPy &amp; Pandas</span>
+                <span class="text-brand-accent">92%</span>
+              </div>
+              <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                <div class="bg-brand-accent h-full rounded-full" style="width: 92%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-slate-300 mb-1">
+                <span>Seaborn EDA &amp; Stats</span>
+                <span class="text-brand-accent">85%</span>
+              </div>
+              <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                <div class="bg-brand-accent h-full rounded-full" style="width: 85%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-slate-300 mb-1">
+                <span>Librosa Audio Processing</span>
+                <span class="text-brand-accent">80%</span>
+              </div>
+              <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                <div class="bg-brand-accent h-full rounded-full" style="width: 80%"></div>
+              </div>
+            </div>
+            <div class="pt-2 flex flex-wrap gap-1.5">
+              <span class="px-2 py-0.5 rounded bg-slate-800/80 text-slate-400 text-[10px]">Google Colab</span>
+              <span class="px-2 py-0.5 rounded bg-slate-800/80 text-slate-400 text-[10px]">Anaconda</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pillar 3: Robotics, ROS 2 & Control -->
+        <div class="p-6 rounded-2xl bg-brand-card border border-brand-cardBorder">
+          <div class="flex items-center gap-3 mb-5">
+            <span class="p-2.5 rounded-xl bg-brand-emerald/15 text-brand-emerald">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+            </span>
+            <h3 class="font-bold text-white text-base">Robotics &amp; Control</h3>
+          </div>
+          <div class="space-y-3 font-mono text-xs">
+            <div>
+              <div class="flex justify-between text-slate-300 mb-1">
+                <span>ROS 2 Navigation &amp; Odom</span>
+                <span class="text-brand-emerald">88%</span>
+              </div>
+              <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                <div class="bg-brand-emerald h-full rounded-full" style="width: 88%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-slate-300 mb-1">
+                <span>Model Predictive Control</span>
+                <span class="text-brand-emerald">85%</span>
+              </div>
+              <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                <div class="bg-brand-emerald h-full rounded-full" style="width: 85%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-slate-300 mb-1">
+                <span>Kalman Filtering (EKF)</span>
+                <span class="text-brand-emerald">88%</span>
+              </div>
+              <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                <div class="bg-brand-emerald h-full rounded-full" style="width: 88%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-slate-300 mb-1">
+                <span>CARLA Autonomous Stack</span>
+                <span class="text-brand-emerald">84%</span>
+              </div>
+              <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                <div class="bg-brand-emerald h-full rounded-full" style="width: 84%"></div>
+              </div>
+            </div>
+            <div class="pt-2 flex flex-wrap gap-1.5">
+              <span class="px-2 py-0.5 rounded bg-slate-800/80 text-slate-400 text-[10px]">PID Tuning</span>
+              <span class="px-2 py-0.5 rounded bg-slate-800/80 text-slate-400 text-[10px]">Differential Drive</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pillar 4: Hardware & Embedded Implementation -->
+        <div class="p-6 rounded-2xl bg-brand-card border border-brand-cardBorder">
+          <div class="flex items-center gap-3 mb-5">
+            <span class="p-2.5 rounded-xl bg-brand-violet/15 text-brand-violet">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+            </span>
+            <h3 class="font-bold text-white text-base">Embedded &amp; Hardware</h3>
+          </div>
+          <div class="space-y-3 font-mono text-xs">
+            <div>
+              <div class="flex justify-between text-slate-300 mb-1">
+                <span>Arduino IDE &amp; Microcontrollers</span>
+                <span class="text-brand-violet">94%</span>
+              </div>
+              <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                <div class="bg-brand-violet h-full rounded-full" style="width: 94%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-slate-300 mb-1">
+                <span>Optical Encoders &amp; IMUs</span>
+                <span class="text-brand-violet">90%</span>
+              </div>
+              <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                <div class="bg-brand-violet h-full rounded-full" style="width: 90%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-slate-300 mb-1">
+                <span>Servo Motor Modulation</span>
+                <span class="text-brand-violet">88%</span>
+              </div>
+              <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                <div class="bg-brand-violet h-full rounded-full" style="width: 88%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-slate-300 mb-1">
+                <span>DevOps &amp; Linux (in progress)</span>
+                <span class="text-brand-violet">75%</span>
+              </div>
+              <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                <div class="bg-brand-violet h-full rounded-full" style="width: 75%"></div>
+              </div>
+            </div>
+            <div class="pt-2 flex flex-wrap gap-1.5">
+              <span class="px-2 py-0.5 rounded bg-slate-800/80 text-slate-400 text-[10px]">Light Sensors</span>
+              <span class="px-2 py-0.5 rounded bg-slate-800/80 text-slate-400 text-[10px]">RTK-GPS</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION & CERTIFICATIONS TIMELINE -->
+  <section id="education" class="py-20 border-b border-slate-800/80 bg-brand-surface/20">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center mb-16">
+        <span class="text-xs font-mono tracking-widest text-brand-cyan uppercase font-semibold">Academic Foundation</span>
+        <h2 class="text-3xl sm:text-4xl font-bold text-white mt-1">Education &amp; Specializations</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+        
+        <!-- Education Column -->
+        <div class="space-y-6">
+          <h3 class="text-lg font-bold text-white flex items-center gap-2 border-b border-slate-800 pb-3">
+            <svg class="w-5 h-5 text-brand-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path></svg>
+            Academic Degrees
+          </h3>
+
+          <!-- SRM IST -->
+          <div class="bg-brand-card p-6 rounded-2xl border border-brand-cardBorder relative">
+            <div class="flex justify-between items-start">
+              <div>
+                <h4 class="text-base font-bold text-white">SRM IST - Kattankulathur, Chennai</h4>
+                <p class="text-xs font-mono text-brand-cyan mt-0.5">B.Tech in Mechatronics Engineering (Robotics)</p>
+              </div>
+              <span class="text-xs font-mono text-slate-400 bg-slate-800/80 px-2 py-0.5 rounded">Exp. May 2027</span>
+            </div>
+            <div class="mt-3 flex items-center gap-2 text-xs font-mono text-brand-emerald">
+              <span class="w-2 h-2 rounded-full bg-brand-emerald"></span>
+              <strong>Cumulative Grade: CGPA 8.93 / 10</strong>
+            </div>
+            <p class="text-slate-400 text-xs mt-2 leading-relaxed">
+              Specialized in autonomous mobile robotics, sensor fusion, microcontrollers, CAD/FEA simulation, and control system engineering.
+            </p>
+          </div>
+
+          <!-- Class XII -->
+          <div class="bg-brand-card p-5 rounded-2xl border border-brand-cardBorder">
+            <div class="flex justify-between items-start">
+              <div>
+                <h4 class="text-sm font-bold text-white">DAV Kapil Dev Public School, Ranchi</h4>
+                <p class="text-xs text-slate-400">Class XII (CBSE)</p>
+              </div>
+              <span class="text-xs font-mono text-slate-400">2022</span>
+            </div>
+            <div class="mt-2 text-xs font-mono text-brand-accent">
+              <strong>Percentage: 84.4%</strong>
+            </div>
+          </div>
+
+          <!-- Class X -->
+          <div class="bg-brand-card p-5 rounded-2xl border border-brand-cardBorder">
+            <div class="flex justify-between items-start">
+              <div>
+                <h4 class="text-sm font-bold text-white">Kennedy High School, Vijayawada</h4>
+                <p class="text-xs text-slate-400">Class X (CBSE)</p>
+              </div>
+              <span class="text-xs font-mono text-slate-400">2020</span>
+            </div>
+            <div class="mt-2 text-xs font-mono text-brand-accent">
+              <strong>Percentage: 86.4%</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Certifications Column -->
+        <div class="space-y-6">
+          <h3 class="text-lg font-bold text-white flex items-center gap-2 border-b border-slate-800 pb-3">
+            <svg class="w-5 h-5 text-brand-violet" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
+            Specializations &amp; Certifications
+          </h3>
+
+          <!-- IIT Guwahati Minor -->
+          <div class="bg-brand-card p-5 rounded-2xl border border-brand-violet/40">
+            <div class="flex justify-between items-center">
+              <span class="text-xs font-mono px-2 py-0.5 rounded bg-brand-violet/20 text-brand-violet">MINOR DEGREE</span>
+              <span class="text-xs font-mono text-emerald-400">Pursuing</span>
+            </div>
+            <h4 class="text-base font-bold text-white mt-2">Minor Degree in AI &amp; Machine Learning</h4>
+            <p class="text-xs font-mono text-slate-400">IIT Guwahati</p>
+            <p class="text-slate-300 text-xs mt-2">
+              Advanced machine learning concepts, deep perception algorithms, and mathematical optimization for automated decision-making.
+            </p>
+          </div>
+
+          <!-- Udemy 1 -->
+          <div class="bg-brand-card p-4 rounded-xl border border-brand-cardBorder">
+            <div class="flex justify-between items-start">
+              <h5 class="text-xs font-bold text-white">Self Driving and ROS 2 &mdash; Odometry &amp; Control</h5>
+              <span class="text-[10px] font-mono text-brand-cyan bg-slate-800 px-2 py-0.5 rounded">Udemy</span>
+            </div>
+            <p class="text-slate-400 text-[11px] mt-1">Wheel odometry computation, ROS 2 topics/services, transform trees (tf2), and closed-loop motor controllers.</p>
+          </div>
+
+          <!-- Udemy 2 -->
+          <div class="bg-brand-card p-4 rounded-xl border border-brand-cardBorder">
+            <div class="flex justify-between items-start">
+              <h5 class="text-xs font-bold text-white">Self Driving and ROS 2 &mdash; Plan &amp; Navigation</h5>
+              <span class="text-[10px] font-mono text-brand-cyan bg-slate-800 px-2 py-0.5 rounded">Udemy</span>
+            </div>
+            <p class="text-slate-400 text-[11px] mt-1">Global &amp; local costmaps, Nav2 stack configuration, behavior trees, and autonomous waypoint navigation.</p>
+          </div>
+
+          <!-- Udemy 3 -->
+          <div class="bg-brand-card p-4 rounded-xl border border-brand-cardBorder">
+            <div class="flex justify-between items-start">
+              <h5 class="text-xs font-bold text-white">Applied Control Systems 1: Autonomous Cars (Math + PID + MPC)</h5>
+              <span class="text-[10px] font-mono text-brand-cyan bg-slate-800 px-2 py-0.5 rounded">Udemy</span>
+            </div>
+            <p class="text-slate-400 text-[11px] mt-1">Kinematic bicycle models, state-space representations, PID trajectory tracking, and quadratic programming in MPC.</p>
+          </div>
+
+          <!-- DevOps -->
+          <div class="bg-brand-card p-4 rounded-xl border border-brand-cardBorder">
+            <div class="flex justify-between items-start">
+              <h5 class="text-xs font-bold text-white">DevOps Engineering &amp; CI/CD</h5>
+              <span class="text-[10px] font-mono text-emerald-400 bg-slate-800 px-2 py-0.5 rounded">In Progress</span>
+            </div>
+            <p class="text-slate-400 text-[11px] mt-1">Automating build pipelines, Docker containerization for robotics environments, and GitHub Actions.</p>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- GITHUB PAGES DEPLOYMENT CALLOUT BANNER -->
+  <section class="py-16 bg-gradient-to-r from-brand-surface via-slate-900 to-brand-surface border-b border-slate-800">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-brand-card/80 border border-slate-800 rounded-3xl p-8 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl">
+        <div class="space-y-2">
+          <div class="inline-flex items-center gap-2 text-brand-cyan text-xs font-mono">
+            <span>&bull;</span> One-File GitHub Deployment
+          </div>
+          <h3 class="text-2xl font-bold text-white">Host this site free at &lt;username&gt;.github.io</h3>
+          <p class="text-slate-400 text-xs sm:text-sm max-w-xl">
+            Save this exact code as <code class="text-brand-cyan font-mono">index.html</code> in your GitHub repository and turn on GitHub Pages in repository settings to share with recruiters.
+          </p>
+        </div>
+        <button onclick="toggleDeployGuide(true)" class="whitespace-nowrap px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-brand-cyan border border-slate-700 text-xs font-mono transition hover:scale-105">
+          View Step-by-Step &rarr;
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT & FOOTER -->
+  <footer id="contact" class="py-20 bg-brand-dark">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 pb-16 border-b border-slate-800">
+        
+        <div>
+          <span class="text-xs font-mono tracking-widest text-brand-cyan uppercase font-semibold">Get in Touch</span>
+          <h3 class="text-3xl font-bold text-white mt-1">Let's Collaborate on Robotics &amp; AI</h3>
+          <p class="text-slate-400 text-sm mt-3 leading-relaxed max-w-md">
+            Available for robotics engineering internships, autonomous vehicle research, computer vision projects, or hardware mechatronics consulting.
+          </p>
+
+          <div class="mt-8 space-y-4 font-mono text-xs sm:text-sm">
+            <div class="flex items-center gap-3 text-slate-300">
+              <span class="w-9 h-9 rounded-xl bg-brand-surface flex items-center justify-center text-brand-cyan border border-slate-800">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+              </span>
+              <span id="emailTarget">ishumandal159@gmail.com</span>
+              <button onclick="copyEmail()" class="text-xs text-brand-cyan hover:underline px-2.5 py-1 rounded bg-slate-800/80 border border-slate-700">Copy</button>
+            </div>
+
+            <div class="flex items-center gap-3 text-slate-300">
+              <span class="w-9 h-9 rounded-xl bg-brand-surface flex items-center justify-center text-brand-emerald border border-slate-800">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+              </span>
+              <a href="tel:7903993370" class="hover:text-brand-cyan transition">+91 7903993370</a>
+            </div>
+
+            <div class="flex items-center gap-3 text-slate-300">
+              <span class="w-9 h-9 rounded-xl bg-brand-surface flex items-center justify-center text-brand-violet border border-slate-800">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+              </span>
+              <span>Chennai, Tamil Nadu, India 603203</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Interactive Message Transmission Form -->
+        <div class="bg-brand-card p-6 sm:p-8 rounded-3xl border border-brand-cardBorder">
+          <form onsubmit="handleFormSubmit(event)" class="space-y-4">
+            <div>
+              <label class="block text-xs font-mono text-slate-300 mb-1">Your Name / Organization</label>
+              <input type="text" required placeholder="Robotics Recruiter / Lab PI" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-brand-cyan">
+            </div>
+            <div>
+              <label class="block text-xs font-mono text-slate-300 mb-1">Email Address</label>
+              <input type="email" required placeholder="contact@autonomous.ai" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-brand-cyan">
+            </div>
+            <div>
+              <label class="block text-xs font-mono text-slate-300 mb-1">Project Scope / Message</label>
+              <textarea rows="3" required placeholder="Discussing autonomy development, ROS 2 pipelines, or mechatronics role..." class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-brand-cyan"></textarea>
+            </div>
+            <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-brand-cyan to-brand-accent hover:from-brand-accent hover:to-brand-cyan text-brand-dark font-semibold text-sm font-mono transition shadow-lg shadow-brand-cyan/20">
+              Transmit Transmission
+            </button>
+          </form>
+          <div id="contactToast" class="hidden mt-3 text-center text-xs font-mono text-brand-cyan py-2 bg-brand-cyan/10 rounded-xl border border-brand-cyan/25">
+            Transmission acknowledged! Ishu will follow up shortly.
+          </div>
+        </div>
+
+      </div>
+
+      <div class="mt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500">
+        <p>&copy; 2026 ISHU &bull; Mechatronics &amp; Robotics Engineer</p>
+        <p class="font-mono mt-2 sm:mt-0">SRM IST &bull; IIT Guwahati (AIML) &bull; GitHub Pages Ready</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ARCHITECTURE INSPECTION MODAL -->
+  <div id="projectModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-brand-surface border border-slate-800 rounded-3xl max-w-2xl w-full p-6 sm:p-8 max-h-[90vh] overflow-y-auto relative shadow-2xl">
+      <button onclick="closeModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white p-1 rounded-lg bg-slate-800/80">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+
+      <div id="modalContent" class="space-y-4">
+        <!-- Injected dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- DEPLOYMENT GUIDE MODAL -->
+  <div id="deployGuideModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-brand-surface border border-slate-800 rounded-3xl max-w-2xl w-full p-6 sm:p-8 max-h-[90vh] overflow-y-auto relative shadow-2xl">
+      <button onclick="toggleDeployGuide(false)" class="absolute top-5 right-5 text-slate-400 hover:text-white p-1 rounded-lg bg-slate-800/80">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+
+      <div class="flex items-center gap-3 pb-3 border-b border-slate-800">
+        <span class="p-2 rounded-xl bg-brand-cyan/20 text-brand-cyan font-mono text-sm">&gt;_</span>
+        <h3 class="text-xl font-bold text-white">How to Host on GitHub Pages</h3>
+      </div>
+
+      <div class="mt-4 text-xs sm:text-sm text-slate-300 space-y-4 font-sans leading-relaxed">
+        <p>Deploy this standalone website directly to GitHub Pages in 3 simple steps:</p>
+        
+        <ol class="list-decimal list-inside space-y-3">
+          <li class="p-3 bg-brand-card rounded-xl border border-slate-800">
+            <strong class="text-white">Create a GitHub Repository:</strong><br>
+            Name it <code class="text-brand-cyan font-mono">&lt;your-username&gt;.github.io</code>
+          </li>
+          <li class="p-3 bg-brand-card rounded-xl border border-slate-800">
+            <strong class="text-white">Save this single file as <code class="text-brand-cyan font-mono">index.html</code>:</strong><br>
+            Drop this file into the root of the repository.
+          </li>
+          <li class="p-3 bg-brand-card rounded-xl border border-slate-800">
+            <strong class="text-white">Push to GitHub:</strong>
+            <div class="mt-2 p-2.5 bg-black/70 rounded-lg font-mono text-xs text-brand-accent overflow-x-auto">
+              git init<br>
+              git add index.html<br>
+              git commit -m "Launch Ishu Mechatronics Portfolio"<br>
+              git branch -M main<br>
+              git remote add origin https://github.com/&lt;your-username&gt;/&lt;your-username&gt;.github.io.git<br>
+              git push -u origin main
+            </div>
+          </li>
+          <li class="p-3 bg-brand-card rounded-xl border border-slate-800">
+            <strong class="text-white">Activate Pages:</strong><br>
+            Go to <em>Settings &rarr; Pages</em>, set the Branch to <code>main</code> and folder to <code>/ (root)</code>, and click Save.
+          </li>
+        </ol>
+
+        <p class="text-xs text-brand-cyan font-mono">
+          &check; Your portfolio will automatically be live at: https://&lt;your-username&gt;.github.io
+        </p>
+      </div>
+
+      <div class="mt-6 flex justify-end">
+        <button onclick="toggleDeployGuide(false)" class="px-5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-mono">
+          Got it
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT CONTROLLERS -->
+  <script>
+    // Detailed specs for Ishu's resume projects
+    const projectDetails = {
+      tractor: {
+        title: "Autonomous Self-Driving Agriculture Tractor",
+        status: "Ongoing Flagship System",
+        category: "EV Powertrain & Autonomous Vehicles",
+        tech: ["Electric Powertrain", "RTK-GPS Antenna", "3D LiDAR Sensor", "AI Vision Stack", "SolidWorks", "Actuators"],
+        overview: "Retro-engineering a secondhand diesel agricultural tractor into a zero-emission electric machine with high-torque electric drive. Implementing an autonomy stack with RTK-GPS centimeter-accurate global localization, 3D LiDAR for field row classification, and vision for obstacle avoidance.",
+        architecture: "Powertrain: High-voltage battery pack and motor inverter interfaced via CAN bus. Autonomy: Dual-antenna RTK-GPS combined with an IMU providing drift-free heading. LiDAR point cloud filtered for row crop boundaries, paired with steering orbital actuator and drive-by-wire braking.",
+        challenges: "Managing high agricultural torque requirements while ensuring deterministic emergency fail-safe braking within sub-50ms latency."
+      },
+      carla: {
+        title: "Tracking and Detection of Dynamic Objects in CARLA",
+        status: "Completed Full-Stack Autonomy",
+        category: "CARLA Simulator & Optimal Control",
+        tech: ["CARLA Simulator", "Kalman Filters (EKF)", "Model Predictive Control (MPC)", "A* Path Planning", "Python"],
+        overview: "Developed an end-to-end perception and navigation pipeline inside CARLA. Dynamic obstacles (vehicles, pedestrians) are tracked with Kalman filtering, while an MPC optimizer executes vehicle steering, throttle, and braking along a collision-free path.",
+        architecture: "Perception: Bounding box generation and velocity vector estimation using EKF. Planning: Global waypoint generation with local dynamic obstacle avoidance. Control: Formulated a quadratic programming (QP) MPC problem minimizing lateral tracking error and control effort.",
+        challenges: "Eliminating vehicle oscillation around aggressive curvatures while maintaining computational efficiency at 30 FPS inside the CARLA environment."
+      },
+      overhead: {
+        title: "Overhead Vision-Based Multi-Robot Localization",
+        status: "Completed Computer Vision",
+        category: "Spatial Camera Calibration & Multi-Agent Tracking",
+        tech: ["Dual Ceiling Cameras", "OpenCV", "Homography Transformation", "Duckiebot Arena", "Python"],
+        overview: "A centralized real-time tracking framework using two ceiling-mounted cameras to localize and plot trajectories of multiple Duckiebots inside a mapped arena.",
+        architecture: "Camera Calibration: Corrected lens distortion parameters using chessboard calibration. Planar Homography: Computed 3x3 transformation matrix mapping camera pixels (u, v) into physical millimeter ground coordinates (X, Y). Tracking: Distinct color/marker thresholding producing real-time coordinate logging.",
+        challenges: "Seamlessly stitching tracking coordinates across the overlapping FOVs of the two ceiling cameras without position jump or occlusion errors."
+      },
+      mobile_robot: {
+        title: "Ground Mobile Robot (Differential Drive with Sensor Fusion)",
+        status: "Completed Mechatronics & Hardware",
+        category: "Mobile Robotics & State Estimation",
+        tech: ["Differential Drive DC Motors", "Optical Wheel Encoders", "6-DOF IMU", "Sensor Fusion (EKF)", "2D Grid Mapping"],
+        overview: "Engineered a differential-drive physical mobile robot integrating optical wheel encoders and an IMU for autonomous navigation. Deployed 2D grid mapping and path-planning algorithms to execute collision-free trajectory tracking.",
+        architecture: "Hardware: DC gear motors with optical quadrature encoders, 6-DOF IMU, motor driver H-bridge, and microcontroller. State Estimation: Extended Kalman Filter fusing wheel encoder odometry with gyro yaw rate to eliminate wheel slippage drift. Mapping: Built 2D occupancy grid map.",
+        challenges: "Compensating for cumulative encoder drift during floor slippage using high-rate IMU angular velocity fusion."
+      },
+      aiml_path: {
+        title: "AIML for Perception and Path Planning",
+        status: "Ongoing IIT Guwahati / SRM Research",
+        category: "Deep Learning & Intelligent Control",
+        tech: ["PyTorch", "OpenCV", "Exploratory Data Analysis", "NumPy & Pandas", "Path Planning Algorithms"],
+        overview: "Developing machine learning architectures for perception, environmental semantic feature extraction, and adaptive trajectory generation under dynamic obstacle constraints.",
+        architecture: "Feature Extraction: Neural convolutional layers for obstacle classification and spatial bounding. Heuristic / RL Planning: Evaluation of adaptive path planners that dynamically update safe corridors based on object velocity predictions.",
+        challenges: "Balancing neural inference latency on edge platforms with high-frequency trajectory replenishment."
+      },
+      weighing: {
+        title: "Smart Weighing Machine with Live Website Monitoring",
+        status: "Completed IoT Instrumentation",
+        category: "Embedded Sensors & Web Telemetry",
+        tech: ["Arduino IDE", "Light Sensor Technology", "Load Cell / ADC", "Web Interface Telemetry", "C++"],
+        overview: "Built an intelligent weight measurement system with light sensor technology and microcontrollers, complete with remote web interface data streaming for real-time live monitoring.",
+        architecture: "Sensors: Precision strain gauge / light sensors converted via ADC to weight data. Microcontroller: Formats data packages and publishes telemetry over serial/web sockets to a web dashboard with live graphical plots.",
+        challenges: "Filtering mechanical vibrations and ambient lighting noise using digital moving average filters."
+      },
+      pick_place: {
+        title: "Pick & Place Robotic Manipulator",
+        status: "Completed Robotics Prototyping",
+        category: "Manipulator Kinematics & Actuation",
+        tech: ["Arduino Microcontroller", "Servo Motors", "Forward & Inverse Kinematics", "SolidWorks 3D CAD"],
+        overview: "Developed a multi-axis pick-and-place robot using Arduino and high-torque servo motors for precise object manipulation and automated payload handling.",
+        architecture: "Mechanics: Linkages modeled and analyzed in SolidWorks. Actuation: Multi-servo coordinated pulse-width modulation (PWM) driven by kinematic trajectory equations.",
+        challenges: "Minimizing end-effector positional overshoot under variable payload weights using tuned acceleration ramping."
+      },
+      pan_flute: {
+        title: "Automating Pan Flute Musical System",
+        status: "Completed Acoustic Mechatronics",
+        category: "Acoustic Modulation & Micro-Actuation",
+        tech: ["Arduino IDE", "Precision Servos", "FluidSIM Airflow Principles", "Acoustic Engineering"],
+        overview: "Designed an automated musical instrument using an Arduino microcontroller and servo motors for airflow modulation to generate acoustic notes.",
+        architecture: "Acoustic Modulation: Positioned micro-servo controlled air nozzles over varying pipe lengths, modulating air velocity and angle of incidence to excite acoustic resonance.",
+        challenges: "Calibrating the exact nozzle angle and flow velocity for repeatable pitch frequencies without turbulent acoustic noise."
+      }
+    };
+
+    // Project filtering logic
+    function filterProjects(cat) {
+      const tabs = document.querySelectorAll('.project-tab');
+      tabs.forEach(tab => {
+        if (tab.dataset.cat === cat) {
+          tab.classList.add('bg-brand-cyan/20', 'text-brand-cyan', 'border-brand-cyan/40');
+          tab.classList.remove('bg-brand-card', 'text-slate-400', 'border-slate-800');
+        } else {
+          tab.classList.remove('bg-brand-cyan/20', 'text-brand-cyan', 'border-brand-cyan/40');
+          tab.classList.add('bg-brand-card', 'text-slate-400', 'border-slate-800');
+        }
+      });
+
+      const cards = document.querySelectorAll('.project-card');
+      cards.forEach(card => {
+        if (cat === 'all' || card.dataset.category === cat) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // Modal popup inspection logic
+    function openModal(id) {
+      const p = projectDetails[id];
+      if (!p) return;
+
+      const techBadges = p.tech.map(t => `<span class="px-2 py-0.5 rounded bg-slate-800 text-brand-cyan font-mono text-xs border border-slate-700">${t}</span>`).join(' ');
+
+      const content = `
+        <div class="flex items-center justify-between pr-8">
+          <span class="text-xs font-mono text-brand-cyan uppercase tracking-wider">${p.category}</span>
+          <span class="text-xs font-mono px-2 py-0.5 rounded bg-brand-emerald/15 text-brand-emerald">${p.status}</span>
+        </div>
+        <h3 class="text-xl font-bold text-white mt-1">${p.title}</h3>
+        <div class="flex flex-wrap gap-1.5 pt-1 pb-3">${techBadges}</div>
+        
+        <div class="space-y-4 text-xs sm:text-sm text-slate-300">
+          <div>
+            <h5 class="text-xs font-mono text-slate-400 uppercase tracking-wide">Project Overview</h5>
+            <p class="mt-1 leading-relaxed text-slate-300">${p.overview}</p>
+          </div>
+          <div>
+            <h5 class="text-xs font-mono text-slate-400 uppercase tracking-wide">System &amp; Algorithmic Architecture</h5>
+            <p class="mt-1 leading-relaxed text-slate-300">${p.architecture}</p>
+          </div>
+          <div>
+            <h5 class="text-xs font-mono text-slate-400 uppercase tracking-wide">Core Engineering Challenge Solved</h5>
+            <p class="mt-1 leading-relaxed text-slate-300">${p.challenges}</p>
+          </div>
+        </div>
+
+        <div class="pt-5 border-t border-slate-800 flex items-center justify-between">
+          <a href="mailto:ishumandal159@gmail.com?subject=Inquiry regarding ${encodeURIComponent(p.title)}" class="px-4 py-2 rounded-xl bg-gradient-to-r from-brand-cyan to-brand-accent text-brand-dark font-mono text-xs font-bold flex items-center gap-1.5">
+            Discuss Implementation
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+          </a>
+          <button onclick="closeModal()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-mono">
+            Close
+          </button>
+        </div>
+      `;
+
+      document.getElementById('modalContent').innerHTML = content;
+      document.getElementById('projectModal').classList.remove('hidden');
+      document.getElementById('projectModal').classList.add('flex');
+    }
+
+    function closeModal() {
+      document.getElementById('projectModal').classList.add('hidden');
+      document.getElementById('projectModal').classList.remove('flex');
+    }
+
+    // Deploy modal
+    function toggleDeployGuide(show) {
+      const modal = document.getElementById('deployGuideModal');
+      if (show) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      } else {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    }
+
+    // Mobile nav toggle
+    const mobileBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    mobileBtn.addEventListener('click', toggleMenu);
+
+    function toggleMenu() {
+      mobileMenu.classList.toggle('hidden');
+    }
+
+    // Form submit toast
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      const toast = document.getElementById('contactToast');
+      toast.classList.remove('hidden');
+      e.target.reset();
+      setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 5000);
+    }
+
+    // Email copy
+    function copyEmail() {
+      const email = document.getElementById('emailTarget').innerText;
+      const el = document.createElement('textarea');
+      el.value = email;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+
+      const btn = event.currentTarget;
+      const prev = btn.innerText;
+      btn.innerText = 'Copied!';
+      setTimeout(() => {
+        btn.innerText = prev;
+      }, 2000);
+    }
+
+    // Close on escape or outside click
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeModal();
+        toggleDeployGuide(false);
+      }
+    });
+
+    document.getElementById('projectModal').addEventListener('click', (e) => {
+      if (e.target.id === 'projectModal') closeModal();
+    });
+
+    document.getElementById('deployGuideModal').addEventListener('click', (e) => {
+      if (e.target.id === 'deployGuideModal') toggleDeployGuide(false);
+    });
+  </script>
+</body>
+</html>
